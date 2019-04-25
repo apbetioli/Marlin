@@ -10141,6 +10141,37 @@ inline void gcode_M226() {
 
 #if defined(CHDK) || HAS_PHOTOGRAPH
 
+    inline void  pulse_on( unsigned long duration ) {
+        unsigned long stop = micros() + duration;
+        while( micros() < stop ) {
+            digitalWrite( PHOTOGRAPH_PIN, HIGH );
+            delayMicroseconds( 13 );
+            digitalWrite( PHOTOGRAPH_PIN, LOW );
+            delayMicroseconds( 13 );
+        }
+    }
+    
+    inline void pulse_off( unsigned long duration ) {
+        unsigned long stop = micros() + duration;
+        while( micros() < stop );
+    }
+
+    /*
+     * Take a picture sending an IR command to a Nikon D7000
+     */
+    inline void take() {
+        for (int i=0; i < 2; i++) {
+            pulse_on(2000);
+            pulse_off(27850);
+            pulse_on(390);
+            pulse_off(1580);
+            pulse_on(410);
+            pulse_off(3580);
+            pulse_on(400);
+            pulse_off(63200);
+        }
+    }
+
   /**
    * M240: Trigger a camera by emulating a Canon RC-1
    *       See http://www.doc-diy.net/photo/rc-1_hacked/
@@ -10154,21 +10185,23 @@ inline void gcode_M226() {
 
     #elif HAS_PHOTOGRAPH
 
-      const uint8_t NUM_PULSES = 16;
-      const float PULSE_LENGTH = 0.01524;
-      for (int i = 0; i < NUM_PULSES; i++) {
-        WRITE(PHOTOGRAPH_PIN, HIGH);
-        _delay_ms(PULSE_LENGTH);
-        WRITE(PHOTOGRAPH_PIN, LOW);
-        _delay_ms(PULSE_LENGTH);
-      }
-      delay(7.33);
-      for (int i = 0; i < NUM_PULSES; i++) {
-        WRITE(PHOTOGRAPH_PIN, HIGH);
-        _delay_ms(PULSE_LENGTH);
-        WRITE(PHOTOGRAPH_PIN, LOW);
-        _delay_ms(PULSE_LENGTH);
-      }
+        take();
+
+//      const uint8_t NUM_PULSES = 16;
+//      const float PULSE_LENGTH = 0.01524;
+//      for (int i = 0; i < NUM_PULSES; i++) {
+//        WRITE(PHOTOGRAPH_PIN, HIGH);
+//        _delay_ms(PULSE_LENGTH);
+//        WRITE(PHOTOGRAPH_PIN, LOW);
+//        _delay_ms(PULSE_LENGTH);
+//      }
+//      delay(7.33);
+//      for (int i = 0; i < NUM_PULSES; i++) {
+//        WRITE(PHOTOGRAPH_PIN, HIGH);
+//        _delay_ms(PULSE_LENGTH);
+//        WRITE(PHOTOGRAPH_PIN, LOW);
+//        _delay_ms(PULSE_LENGTH);
+//      }
 
     #endif // !CHDK && HAS_PHOTOGRAPH
   }

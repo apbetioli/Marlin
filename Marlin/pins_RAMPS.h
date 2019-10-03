@@ -60,11 +60,13 @@
 #else
   #define SERVO0_PIN       11
 #endif
-#define SERVO1_PIN          6
+//#define SERVO1_PIN          6
 #define SERVO2_PIN          5
 #ifndef SERVO3_PIN
   #define SERVO3_PIN        4
 #endif
+
+#define PHOTOGRAPH_PIN     6
 
 //
 // Limit Switches

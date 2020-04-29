@@ -1586,8 +1586,8 @@
  * Will be sent in the form '//action:ACTION_ON_PAUSE', e.g. '//action:pause'.
  * The host must be configured to handle the action command.
  */
-//#define ACTION_ON_PAUSE "pause"
-//#define ACTION_ON_RESUME "resume"
+#define ACTION_ON_PAUSE "paused"
+#define ACTION_ON_RESUME "resumed"
 
 //===========================================================================
 //====================== I2C Position Encoder Settings ======================

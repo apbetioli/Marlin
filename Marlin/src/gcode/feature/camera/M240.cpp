@@ -122,6 +122,39 @@
  *    I - Switch trigger position override X
  *    J - Switch trigger position override Y
  */
+
+
+inline void pulse_on( unsigned long duration ) {
+    unsigned long stop = micros() + duration;
+    while( micros() < stop ) {
+        digitalWrite( PHOTOGRAPH_PIN, HIGH );
+        delayMicroseconds( 13 );
+        digitalWrite( PHOTOGRAPH_PIN, LOW );
+        delayMicroseconds( 13 );
+    }
+}
+
+inline void pulse_off( unsigned long duration ) {
+    unsigned long stop = micros() + duration;
+    while( micros() < stop );
+}
+
+/*
+  * Take a picture sending an IR command to a Nikon D7000
+  */
+inline void take_picture() {
+    for (int i=0; i < 2; i++) {
+        pulse_on(2000);
+        pulse_off(27850);
+        pulse_on(390);
+        pulse_off(1580);
+        pulse_on(410);
+        pulse_off(3580);
+        pulse_on(400);
+        pulse_off(63200);
+    }
+}
+
 void GcodeSuite::M240() {
 
   #ifdef PHOTO_POSITION
@@ -183,9 +216,7 @@ void GcodeSuite::M240() {
 
   #elif HAS_PHOTOGRAPH
 
-    spin_photo_pin();
-    delay(7.33);
-    spin_photo_pin();
+     take_picture();
 
   #endif
 

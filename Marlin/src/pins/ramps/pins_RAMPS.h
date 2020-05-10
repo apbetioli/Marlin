@@ -72,7 +72,7 @@
   #endif
 #endif
 #ifndef SERVO1_PIN
-  #define SERVO1_PIN                           6
+  //#define SERVO1_PIN                           6
 #endif
 #ifndef SERVO2_PIN
   #define SERVO2_PIN                           5
